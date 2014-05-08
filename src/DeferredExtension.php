@@ -22,16 +22,25 @@ class DeferredExtension extends \Twig_Extension
         $this->environment = $environment;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTokenParsers()
     {
         return array(new DeferredTokenParser());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getNodeVisitors()
     {
         return array(new DeferredNodeVisitor());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'deferred';
