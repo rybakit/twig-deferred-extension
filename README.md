@@ -13,7 +13,6 @@ Let's assume that we have the following set of templates:
 <html>
     <head>
         ...
-
         {% deferred javascripts %}
             {% for item in storage %}
                 <script src="{{ item }}"></script>
@@ -22,7 +21,6 @@ Let's assume that we have the following set of templates:
     </head>
     <body>
         {% block content '' %}
-
         {{ storage.append('/js/layout.js') }}
     </body>
 </html>
