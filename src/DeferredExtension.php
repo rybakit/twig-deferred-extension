@@ -12,7 +12,7 @@ class DeferredExtension extends \Twig_Extension
     /**
      * @var array
      */
-    private $callbacks = array();
+    private $blocks = array();
 
     /**
      * {@inheritdoc}
@@ -46,27 +46,27 @@ class DeferredExtension extends \Twig_Extension
         return 'deferred';
     }
 
-    public function addCallback(\Twig_Template $template, $blockName, array $args)
+    public function defer(\Twig_Template $template, $blockName, array $args)
     {
-        $name = $template->getTemplateName();
+        $templateName = $template->getTemplateName();
 
-        if (!isset($this->callbacks[$name])) {
-            $this->callbacks[$name] = array();
+        if (!isset($this->blocks[$templateName])) {
+            $this->blocks[$templateName] = array();
         }
 
-        $this->callbacks[$name][] = array($blockName, $args);
+        $this->blocks[$templateName][] = array($blockName, $args);
     }
 
     public function resolve(\Twig_Template $template)
     {
-        $name = $template->getTemplateName();
+        $templateName = $template->getTemplateName();
 
-        if (empty($this->callbacks[$name])) {
+        if (empty($this->blocks[$templateName])) {
             return;
         }
 
-        while ($callback = array_pop($this->callbacks[$name])) {
-            call_user_func_array([$template, $callback[0]], $callback[1]);
+        while ($block = array_pop($this->blocks[$templateName])) {
+            call_user_func_array([$template, $block[0]], $block[1]);
         }
     }
 }
