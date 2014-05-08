@@ -3,12 +3,22 @@ Deferred Twig Extension
 
 An extension for Twig that allows to defer block rendering.
 
+## Installation
+
+The recommended way to install the extension is through [Composer](http://getcomposer.org):
+
+```sh
+$ composer require phive/twig-extensions-deferred:dev-master
+```
+
+
 ## Initialization
 
 ```php
 $twig = new Twig_Environment($loader);
 $twig->addExtension(new Phive\Twig\Extensions\Deferred());
 ```
+
 
 ## Usage example
 
@@ -83,6 +93,7 @@ Then the output will be:
     </body>
 </html>
 ```
+
 
 ## License
 
