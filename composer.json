@@ -1,0 +1,22 @@
+{
+    "name": "phive/twig-extensions-deferred",
+    "description": "An extension for Twig that allows to defer block rendering",
+    "keywords": ["twig", "extension", "defer", "lazy"],
+    "homepage": "https://github.com/rybakit/twig-extensions-deferred",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eugene Leonovich",
+            "email": "gen.work@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "~1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phive\\Twig\\Extensions\\Deferred\\": "src/"
+        }
+    }
+}
