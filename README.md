@@ -24,8 +24,8 @@ Let's assume that we have the following set of templates:
         {{ storage.append('/js/layout.js') }}
     </body>
 </html>
-
-
+```
+```jinja
 {# page.html.twig #}
 {% extends "layout.html.twig" %}
 
@@ -38,12 +38,12 @@ Let's assume that we have the following set of templates:
 
     {{ storage.append('/js/page.js') }}
 {% endblock %}
-
-
+```
+```jinja
 {# subpage1.html.twig #}
 {{ storage.append('/js/subpage1.js') }}
-
-
+```
+```jinja
 {# subpage2.html.twig #}
 {{ storage.append('/js/subpage2.js') }}
 ```
