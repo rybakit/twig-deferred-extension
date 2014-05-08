@@ -3,7 +3,14 @@ Deferred Twig Extension
 
 An extension for Twig that allows to defer block rendering.
 
-## Example
+## Initialization
+
+```php
+$twig = new Twig_Environment($loader);
+$twig->addExtension(new Phive\Twig\Extensions\Deferred());
+```
+
+## Usage example
 
 Let's assume that we have the following set of templates:
 
@@ -76,3 +83,7 @@ Then the output will be:
     </body>
 </html>
 ```
+
+## License
+
+Deferred Twig Extension is released under the MIT License. See the bundled LICENSE file for details.
