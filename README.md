@@ -11,14 +11,16 @@ Let's assume that we have the following set of templates:
 {# layout.html.twig #}
 <!DOCTYPE html>
 <html>
-    ...
-    <body>
+    <head>
+        ...
+
         {% deferred javascripts %}
             {% for item in storage %}
                 <script src="{{ item }}"></script>
             {% endfor %}
         {% enddeferred %}
-
+    </head>
+    <body>
         {% block content '' %}
 
         {{ storage.append('/js/layout.js') }}
@@ -66,11 +68,13 @@ Then the output will be:
 ```html
 <!DOCTYPE html>
 <html>
-    ...
-    <body>
+    <head>
+        ...
         <script src="/js/page.js"></script>
         <script src="/js/subpage1.js"></script>
         <script src="/js/layout.js"></script>
+    </head>
+    <body>
     </body>
 </html>
 ```
