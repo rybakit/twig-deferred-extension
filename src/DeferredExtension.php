@@ -66,7 +66,7 @@ class DeferredExtension extends \Twig_Extension
         }
 
         while ($block = array_pop($this->blocks[$templateName])) {
-            call_user_func_array([$template, $block[0]], $block[1]);
+            call_user_func_array(array($template, $block[0]), $block[1]);
         }
     }
 }
