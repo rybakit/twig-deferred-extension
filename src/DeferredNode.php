@@ -19,7 +19,6 @@ class DeferredNode extends \Twig_Node_Block
         ;
 
         $compiler
-            ->addDebugInfo($this)
             ->write(sprintf("public function block_do_%s(\$context, array \$blocks = array())\n", $name), "{\n")
             ->indent()
             ->write("\$content = ob_get_clean();\n")
