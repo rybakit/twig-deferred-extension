@@ -84,7 +84,6 @@ Let's assume that we have the following set of templates:
 > It's up to you how to share data between templates.
 
 <br>
-
 Then the output will be:
 
 ```html
