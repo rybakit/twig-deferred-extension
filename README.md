@@ -73,7 +73,6 @@ Let's assume that we have the following set of templates:
 {{ storage.append('/js/subpage2.js') }}
 ```
 <br>
-<br>
 > The `storage` is a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals)
 > which can be created like this:
 >
@@ -82,6 +81,7 @@ Let's assume that we have the following set of templates:
 >
 > It's not provided by this extension and it's there just to show the order in which data are added.<br>
 > It's up to you how to share data between templates.
+<br>
 
 Then the output will be:
 
