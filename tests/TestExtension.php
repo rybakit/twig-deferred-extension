@@ -4,7 +4,7 @@ namespace Phive\Twig\Extensions\Tests\Deferred;
 
 class TestExtension extends \Twig_Extension
 {
-    private $assets = array();
+    public $assets = array();
 
     public function getFunctions()
     {
