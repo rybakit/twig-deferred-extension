@@ -1,6 +1,7 @@
 Deferred Twig Extension
 =======================
 
+
 An extension for Twig that allows to defer block rendering.
 
 ## Installation
@@ -24,7 +25,7 @@ $twig->addExtension(new Phive\Twig\Extensions\Deferred());
 
 Let's assume that we have the following set of templates:
 
-layout.html.twig
+*layout.html.twig*
 ```jinja
 <!DOCTYPE html>
 <html>
@@ -45,7 +46,7 @@ layout.html.twig
 </html>
 ```
 
-page.html.twig
+*page.html.twig*
 ```jinja
 {% extends "layout.html.twig" %}
 
@@ -62,12 +63,12 @@ page.html.twig
 {% endblock %}
 ```
 
-subpage1.html.twig
+*subpage1.html.twig*
 ```jinja
 {{ storage.append('/js/subpage1.js') }}
 ```
 
-subpage2.html.twig
+*subpage2.html.twig*
 ```jinja
 {{ storage.append('/js/subpage2.js') }}
 ```
