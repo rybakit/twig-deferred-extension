@@ -1,6 +1,6 @@
 Deferred Twig Extension
 =======================
-
+[![Build Status](https://travis-ci.org/rybakit/twig-extensions-deferred.svg?branch=master)](https://travis-ci.org/rybakit/twig-extensions-deferred)
 
 An extension for Twig that allows to defer block rendering.
 
