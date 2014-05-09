@@ -45,7 +45,7 @@ Let's assume that we have the following set of templates:
     </body>
 </html>
 ```
-
+<br>
 *page.html.twig*
 ```jinja
 {% extends "layout.html.twig" %}
@@ -62,12 +62,12 @@ Let's assume that we have the following set of templates:
     {{ storage.append('/js/page-footer.js') }}
 {% endblock %}
 ```
-
+<br>
 *subpage1.html.twig*
 ```jinja
 {{ storage.append('/js/subpage1.js') }}
 ```
-
+<br>
 *subpage2.html.twig*
 ```jinja
 {{ storage.append('/js/subpage2.js') }}
@@ -80,7 +80,6 @@ Let's assume that we have the following set of templates:
 >     $twig->addGlobal('storage', new ArrayObject());
 >
 > It's not provided by this extension and it's there just to show the order in which data are added.
->
 > It's up to you how to share data between templates.
 
 Then the output will be:
