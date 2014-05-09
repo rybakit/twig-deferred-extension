@@ -24,12 +24,14 @@ $twig->addExtension(new Phive\Twig\Extensions\Deferred());
 
 Let's assume that we have the following set of templates:
 
+layout.html.twig
 ```jinja
-{# layout.html.twig #}
 <!DOCTYPE html>
 <html>
     <head>
         ...
+        {{ storage.append('/js/layout-header.js') }}
+
         {% deferred javascripts %}
             {% for item in storage %}
                 <script src="{{ item }}"></script>
@@ -38,33 +40,35 @@ Let's assume that we have the following set of templates:
     </head>
     <body>
         {% block content '' %}
-        {{ storage.append('/js/layout.js') }}
+        {{ storage.append('/js/layout-footer.js') }}
     </body>
 </html>
 ```
 
+page.html.twig
 ```jinja
-{# page.html.twig #}
 {% extends "layout.html.twig" %}
 
 {% block content %}
+    {{ storage.append('/js/page-header.js') }}
+
     {% if foo is not defined %}
         {{ include("subpage1.html.twig") }}
     {% else %}
         {{ include("subpage2.html.twig") }}
     {% endif %}
 
-    {{ storage.append('/js/page.js') }}
+    {{ storage.append('/js/page-footer.js') }}
 {% endblock %}
 ```
 
+subpage1.html.twig
 ```jinja
-{# subpage1.html.twig #}
 {{ storage.append('/js/subpage1.js') }}
 ```
 
+subpage2.html.twig
 ```jinja
-{# subpage2.html.twig #}
 {{ storage.append('/js/subpage2.js') }}
 ```
 
@@ -85,9 +89,11 @@ Then the output will be:
 <html>
     <head>
         ...
-        <script src="/js/page.js"></script>
+        <script src="/js/layout-header.js"></script>
+        <script src="/js/page-header.js"></script>
         <script src="/js/subpage1.js"></script>
-        <script src="/js/layout.js"></script>
+        <script src="/js/page-footer.js"></script>
+        <script src="/js/layout-footer.js"></script>
     </head>
     <body>
     </body>
