@@ -4,9 +4,9 @@ namespace Phive\Twig\Extensions\Deferred;
 
 class DeferredModuleNode extends \Twig_Node_Module
 {
-    public function __construct(\Twig_Node_Module $originalNode)
+    public function __construct(\Twig_Node_Module $node)
     {
-        \Twig_Node::__construct($originalNode->nodes, $originalNode->attributes, $originalNode->lineno, $originalNode->tag);
+        \Twig_Node::__construct($node->nodes, $node->attributes, $node->lineno, $node->tag);
     }
 
     protected function compileDisplayBody(\Twig_Compiler $compiler)
