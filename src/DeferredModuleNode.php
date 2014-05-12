@@ -6,7 +6,7 @@ class DeferredModuleNode extends \Twig_Node_Module
 {
     public function __construct(\Twig_Node_Module $node)
     {
-        \Twig_Node::__construct($node->nodes, $node->attributes, $node->lineno, $node->tag);
+        parent::__construct($node->getNode('body'), $node->getNode('parent'), $node->getNode('blocks'), $node->getNode('macros'), $node->getNode('traits'), $node->getAttribute('embedded_templates'), $node->getAttribute('filename'));
     }
 
     protected function compileDisplayBody(\Twig_Compiler $compiler)
