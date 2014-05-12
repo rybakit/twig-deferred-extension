@@ -20,7 +20,7 @@ class DeferredModuleNode extends \Twig_Node_Module
             ->write("while (\$template) {\n")
             ->indent()
             ->write("\$deferred->resolve(\$template);\n")
-            ->write("\$template = \$template->parent;\n")
+            ->write("\$template = \$template->getParent(\$context);")
             ->outdent()
             ->write("}\n")
         ;
