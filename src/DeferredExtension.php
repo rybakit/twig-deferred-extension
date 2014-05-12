@@ -5,22 +5,9 @@ namespace Phive\Twig\Extensions\Deferred;
 class DeferredExtension extends \Twig_Extension
 {
     /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
-
-    /**
      * @var array
      */
     private $blocks = array();
-
-    /**
-     * {@inheritdoc}
-     */
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
 
     /**
      * {@inheritdoc}
