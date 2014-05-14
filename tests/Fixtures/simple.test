@@ -1,0 +1,10 @@
+--TEST--
+deferred tag
+--TEMPLATE--
+{{ data.append('header') }}
+{% deferred foo %}{{ data|join(',') }}{% enddeferred %}
+{{ data.append('footer') }}
+--DATA--
+return array()
+--EXPECT--
+header,footer

@@ -1,8 +1,8 @@
 <?php
 
-namespace Phive\Twig\Extensions\Deferred;
+namespace Phive\Twig\Extensions\Tests\Deferred;
 
-class DeferredModuleNode extends \Twig_Node_Module
+class TestModuleNode extends \Twig_Node_Module
 {
     public function __construct(\Twig_Node_Module $node)
     {
@@ -14,13 +14,9 @@ class DeferredModuleNode extends \Twig_Node_Module
         parent::compileDisplayBody($compiler);
 
         $compiler
-            ->write("\$deferred = \$this->env->getExtension('deferred');\n")
-            ->write("\$template = \$this;\n")
-            ->raw("\n")
-            ->write("while (\$template) {\n")
+            ->write("if (isset(\$context['body_extra'])) {\n")
             ->indent()
-            ->write("\$deferred->resolve(\$template);\n")
-            ->write("\$template = \$template->getParent(\$context);")
+            ->write("echo \$context['body_extra'];\n")
             ->outdent()
             ->write("}\n")
         ;
