@@ -12,20 +12,13 @@ class DeferredNode extends \Twig_Node_Block
             ->addDebugInfo($this)
             ->write(sprintf("public function block_%s(\$context, array \$blocks = array())\n", $name), "{\n")
             ->indent()
-            ->write("\$this->env->getExtension('deferred')->defer(\$this, 'block_do_".$name."', array(\$context, \$blocks));\n")
-            ->write("ob_start();\n")
+            ->write(sprintf("\$this->env->getExtension('deferred')->defer(\$this, 'block_do_%s', array(\$context, \$blocks));\n", $name))
             ->outdent()
             ->write("}\n\n")
         ;
 
-        $compiler
-            ->write(sprintf("public function block_do_%s(\$context, array \$blocks = array())\n", $name), "{\n")
-            ->indent()
-            ->write("\$content = ob_get_clean();\n")
-            ->subcompile($this->getNode('body'))
-            ->write("echo \$content;\n")
-            ->outdent()
-            ->write("}\n\n")
-        ;
+        $this->setAttribute('name', 'do_'.$name);
+        parent::compile($compiler);
+        $this->setAttribute('name', $name);
     }
 }

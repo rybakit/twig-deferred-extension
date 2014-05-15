@@ -1,9 +1,0 @@
---TEST--
-deferred tag
---TEMPLATE--
-{% deferred foo %}deferred content{% enddeferred %}
---DATA--
-return array('body_extra' => "\ncustom module content")
---EXPECT--
-deferred content
-custom module content

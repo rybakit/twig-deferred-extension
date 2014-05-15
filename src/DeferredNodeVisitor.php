@@ -11,12 +11,9 @@ class DeferredNodeVisitor implements \Twig_NodeVisitorInterface
 
     public function leaveNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
-        if ($node instanceof \Twig_Node_Module) {
-            $body = $node->getNode('body');
-            $body->setNode($body->count(), new ResolvedNode());
-        }
-
-        return $node;
+        return ($node instanceof \Twig_Node_Module)
+            ? new DeferredModuleNode($node)
+            : $node;
     }
 
     public function getPriority()

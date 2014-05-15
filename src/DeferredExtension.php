@@ -10,6 +10,11 @@ class DeferredExtension extends \Twig_Extension
     private $blocks = array();
 
     /**
+     * @var bool
+     */
+    private $isResolving = false;
+
+    /**
      * {@inheritdoc}
      */
     public function getTokenParsers()
@@ -35,25 +40,32 @@ class DeferredExtension extends \Twig_Extension
 
     public function defer(\Twig_Template $template, $blockName, array $args)
     {
-        $templateName = $template->getTemplateName();
+        if ($this->isResolving) {
+            call_user_func_array(array($template, $blockName), $args);
 
-        if (!isset($this->blocks[$templateName])) {
-            $this->blocks[$templateName] = array();
+            return;
         }
 
+        $templateName = $template->getTemplateName();
         $this->blocks[$templateName][] = array($blockName, $args);
+        ob_start();
     }
 
     public function resolve(\Twig_Template $template)
     {
         $templateName = $template->getTemplateName();
-
         if (empty($this->blocks[$templateName])) {
             return;
         }
 
+        $this->isResolving = true;
+
         while ($block = array_pop($this->blocks[$templateName])) {
+            $buffer = ob_get_clean();
             call_user_func_array(array($template, $block[0]), $block[1]);
+            echo $buffer;
         }
+
+        $this->isResolving = false;
     }
 }
