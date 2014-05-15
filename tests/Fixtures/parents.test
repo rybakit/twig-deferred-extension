@@ -1,0 +1,14 @@
+--TEST--
+deferred tag
+--TEMPLATE--
+{% extends "level2.twig" %}
+{% deferred foo %}{{ parent() }},level3{% enddeferred %}
+--TEMPLATE(level2.twig)--
+{% extends "level1.twig" %}
+{% deferred foo %}{{ parent() }},level2{% enddeferred %}
+--TEMPLATE(level1.twig)--
+{% deferred foo %}level1{% enddeferred %}
+--DATA--
+return array()
+--EXPECT--
+level1,level2,level3
