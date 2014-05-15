@@ -10,9 +10,9 @@ class DeferredNode extends \Twig_Node_Block
 
         $compiler
             ->addDebugInfo($this)
-            ->write(sprintf("public function block_%s(\$context, array \$blocks = array())\n", $name), "{\n")
+            ->write("public function block_$name(\$context, array \$blocks = array())\n", "{\n")
             ->indent()
-            ->write(sprintf("\$this->env->getExtension('deferred')->defer(\$this, 'block_do_%s', array(\$context, \$blocks));\n", $name))
+            ->write("\$this->env->getExtension('deferred')->defer(\$this, 'block_do_$name', array(\$context, \$blocks));\n")
             ->outdent()
             ->write("}\n\n")
         ;
