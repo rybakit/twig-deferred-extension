@@ -4,16 +4,25 @@ namespace Phive\Twig\Extensions\Deferred;
 
 class DeferredNodeVisitor implements \Twig_NodeVisitorInterface
 {
+    private $hasDeferred = false;
+
     public function enterNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
+        if (!$this->hasDeferred && $node instanceof DeferredNode) {
+            $this->hasDeferred = true;
+        }
+
         return $node;
     }
 
     public function leaveNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
-        return ($node instanceof \Twig_Node_Module)
-            ? new DeferredModuleNode($node)
-            : $node;
+        if ($this->hasDeferred && $node instanceof \Twig_Node_Module) {
+            $node = new DeferredModuleNode($node);
+            $this->hasDeferred = false;
+        }
+
+        return $node;
     }
 
     public function getPriority()
