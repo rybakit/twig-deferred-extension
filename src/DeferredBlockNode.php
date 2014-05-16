@@ -2,14 +2,18 @@
 
 namespace Phive\Twig\Extensions\Deferred;
 
-class DeferredNode extends \Twig_Node_Block
+class DeferredBlockNode extends \Twig_Node_Block
 {
+    public function __construct(\Twig_Node_Block $node)
+    {
+        parent::__construct($node->getAttribute('name'), $node->getNode('body'), $node->getLine(), $node->getNodeTag());
+    }
+
     public function compile(\Twig_Compiler $compiler)
     {
         $name = $this->getAttribute('name');
 
         $compiler
-            ->addDebugInfo($this)
             ->write("public function block_$name(\$context, array \$blocks = array())\n", "{\n")
             ->indent()
             ->write("\$this->env->getExtension('deferred')->defer(\$this, 'block_do_$name', array(\$context, \$blocks));\n")

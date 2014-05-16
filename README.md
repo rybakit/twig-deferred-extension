@@ -17,7 +17,7 @@ $ composer require phive/twig-extensions-deferred:dev-master
 
 ```php
 $twig = new Twig_Environment($loader);
-$twig->addExtension(new Phive\Twig\Extensions\Deferred());
+$twig->addExtension(new Phive\Twig\Extensions\Deferred\DeferredExtension());
 ```
 
 
@@ -33,11 +33,11 @@ Let's assume that we have the following set of templates:
         ...
         {{ storage.append('/js/layout-header.js') }}
 
-        {% deferred javascripts %}
+        {% block javascripts deferred %}
             {% for item in storage %}
                 <script src="{{ item }}"></script>
             {% endfor %}
-        {% enddeferred %}
+        {% endblock %}
     </head>
     <body>
         {% block content '' %}

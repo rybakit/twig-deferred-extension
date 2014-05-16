@@ -14,7 +14,13 @@ class DeferredTokenParser extends \Twig_TokenParser_Block
             throw new \Twig_Error_Syntax(sprintf("The block '$name' has already been defined line %d", $this->parser->getBlock($name)->getLine()), $stream->getCurrent()->getLine(), $stream->getFilename());
         }
 
-        $this->parser->setBlock($name, $block = new DeferredNode($name, new \Twig_Node(array()), $lineno));
+        $block = new \Twig_Node_Block($name, new \Twig_Node(array()), $lineno);
+
+        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')) {
+            $block = new DeferredBlockNode($block);
+        }
+
+        $this->parser->setBlock($name, $block);
         $this->parser->pushLocalScope();
         $this->parser->pushBlockStack($name);
 
@@ -40,15 +46,5 @@ class DeferredTokenParser extends \Twig_TokenParser_Block
         $this->parser->popLocalScope();
 
         return new \Twig_Node_BlockReference($name, $lineno, $this->getTag());
-    }
-
-    public function decideBlockEnd(\Twig_Token $token)
-    {
-        return $token->test('enddeferred');
-    }
-
-    public function getTag()
-    {
-        return 'deferred';
     }
 }

@@ -9,9 +9,9 @@ deferred tag
 {% endblock %}
 --TEMPLATE(layout.twig)--
 {{ data.append('layout_header') }}
-{% deferred foo %}
+{% block foo deferred %}
     {{ data|join(',') }}
-{% enddeferred %}
+{% endblock %}
 {% block body '' %}
 {{ data.append('layout_footer') }}
 --TEMPLATE(sub.twig)--

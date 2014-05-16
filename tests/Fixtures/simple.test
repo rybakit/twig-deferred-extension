@@ -2,7 +2,7 @@
 deferred tag
 --TEMPLATE--
 {{ data.append('header') }}
-{% deferred foo %}{{ data|join(',') }}{% enddeferred %}
+{% block foo deferred %}{{ data|join(',') }}{% endblock %}
 {{ data.append('footer') }}
 --DATA--
 return array()
