@@ -102,7 +102,7 @@ Consider the following set of templates:
 {{ data.append('/js/subpage2.js') }}
 ```
 
-The output:
+The resulting html will be the following:
 
 ```html
 <!DOCTYPE html>
@@ -130,7 +130,7 @@ The output:
 {% block bar deferred %}bar is deferred now{% endblock %}
 
 {# base.twig #}
-{% block foo deferred %}foo is deferred{% endblock %},
+{% block foo deferred %}foo is deferred{% endblock %}
 {% block bar %}bar is deferred{% endblock %}
 ```
 
