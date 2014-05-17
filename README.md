@@ -131,7 +131,7 @@ The resulting html will be the following:
 
 {# base.twig #}
 {% block foo deferred %}foo is deferred{% endblock %}
-{% block bar %}bar is deferred{% endblock %}
+{% block bar %}bar is not deferred{% endblock %}
 ```
 
 
