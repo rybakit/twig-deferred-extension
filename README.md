@@ -20,38 +20,69 @@ $twig = new Twig_Environment($loader);
 $twig->addExtension(new Phive\Twig\Extensions\Deferred\DeferredExtension());
 ```
 
+## "Hello world" Example
 
-## Usage example
+For example purposes, let's create a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals):
 
-Let's assume that we have the following set of templates:
+```php
+$twig = new Twig_Environment($loader);
+$twig->addGlobal('data', new ArrayObject());
+```
 
-*layout.html.twig*
+Then assume that we have the following template:
+
 ```jinja
+{{ data.append('Hello') }}
+
+{% block foo %}
+    {{ data|join(' ') }}
+{% endblock %}
+
+{{ data.append('world!') }}
+```
+
+The output of this template will be `Hello`, which is predictable because Twig tags are processed consecutively, one by one.
+
+Now, let's mark the `foo` block with `deferred` keyword to inform Twig engine to defer the rendering of this block.
+It has to be placed just after the block name:
+
+```jinja
+{% block foo deferred %}
+```
+
+And here it is, we get desired `Hello world!` output.
+
+
+## Advanced Example
+
+Consider the following set of templates:
+
+```jinja
+{# layout.html.twig #}
 <!DOCTYPE html>
 <html>
     <head>
         ...
-        {{ storage.append('/js/layout-header.js') }}
+        {{ data.append('/js/layout-header.js') }}
 
         {% block javascripts deferred %}
-            {% for item in storage %}
+            {% for item in data %}
                 <script src="{{ item }}"></script>
             {% endfor %}
         {% endblock %}
     </head>
     <body>
         {% block content '' %}
-        {{ storage.append('/js/layout-footer.js') }}
+        {{ data.append('/js/layout-footer.js') }}
     </body>
 </html>
-```
-<br>
-*page.html.twig*
-```jinja
+
+
+{# page.html.twig #}
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    {{ storage.append('/js/page-header.js') }}
+    {{ data.append('/js/page-header.js') }}
 
     {% if foo is not defined %}
         {{ include("subpage1.html.twig") }}
@@ -59,32 +90,19 @@ Let's assume that we have the following set of templates:
         {{ include("subpage2.html.twig") }}
     {% endif %}
 
-    {{ storage.append('/js/page-footer.js') }}
+    {{ data.append('/js/page-footer.js') }}
 {% endblock %}
-```
-<br>
-*subpage1.html.twig*
-```jinja
-{{ storage.append('/js/subpage1.js') }}
-```
-<br>
-*subpage2.html.twig*
-```jinja
-{{ storage.append('/js/subpage2.js') }}
-```
-<br>
 
-> The `storage` is a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals)
-> which can be created like this:
->
->     $twig = new Twig_Environment($loader);
->     $twig->addGlobal('storage', new ArrayObject());
->
-> It's not provided by this extension and it's there just to show the order in which data are added.<br>
-> It's up to you how to share data between templates.
 
-<br>
-Then the output will be:
+{# subpage1.html.twig #}
+{{ data.append('/js/subpage1.js') }}
+
+
+{# subpage2.html.twig #}
+{{ data.append('/js/subpage2.js') }}
+```
+
+The output:
 
 ```html
 <!DOCTYPE html>
@@ -100,6 +118,20 @@ Then the output will be:
     <body>
     </body>
 </html>
+```
+
+
+## Block overriding
+
+```jinja
+{# index.twig #}
+{% extends "base.twig" %}
+{% block foo %}foo is not deferred anymore{% endblock %}
+{% block bar deferred %}bar is deferred now{% endblock %}
+
+{# base.twig #}
+{% block foo deferred %}foo is deferred{% endblock %},
+{% block bar %}bar is deferred{% endblock %}
 ```
 
 
