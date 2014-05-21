@@ -22,14 +22,14 @@ $twig->addExtension(new Phive\Twig\Extensions\Deferred\DeferredExtension());
 
 ## "Hello world" Example
 
-For example purposes, let's create a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals):
+Just for example purposes, first create a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals):
 
 ```php
 $twig = new Twig_Environment($loader);
 $twig->addGlobal('data', new ArrayObject());
 ```
 
-Then assume that we have the following template:
+Then build the following template:
 
 ```jinja
 {{ data.append('Hello') }}
