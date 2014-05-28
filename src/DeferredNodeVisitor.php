@@ -8,7 +8,7 @@ class DeferredNodeVisitor implements \Twig_NodeVisitorInterface
 
     public function enterNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
-        if (!$this->hasDeferred && $node instanceof DeferredBlockNode) {
+        if (!$this->hasDeferred && $node instanceof DeferredBlockReferenceNode) {
             $this->hasDeferred = true;
         }
 

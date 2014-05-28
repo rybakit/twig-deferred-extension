@@ -15,10 +15,7 @@ class DeferredTokenParser extends \Twig_TokenParser_Block
         }
 
         $block = new \Twig_Node_Block($name, new \Twig_Node(array()), $lineno);
-
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')) {
-            $block = new DeferredBlockNode($block);
-        }
+        $deferred = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred');
 
         $this->parser->setBlock($name, $block);
         $this->parser->pushLocalScope();
@@ -45,6 +42,9 @@ class DeferredTokenParser extends \Twig_TokenParser_Block
         $this->parser->popBlockStack();
         $this->parser->popLocalScope();
 
-        return new \Twig_Node_BlockReference($name, $lineno, $this->getTag());
+        return $deferred
+            ? new DeferredBlockReferenceNode($name, $lineno, $this->getTag())
+            : new \Twig_Node_BlockReference($name, $lineno, $this->getTag())
+        ;
     }
 }

@@ -10,9 +10,9 @@ class DeferredExtension extends \Twig_Extension
     private $blocks = array();
 
     /**
-     * @var bool
+     * @var array
      */
-    private $isResolving = false;
+    private $scopes = array();
 
     /**
      * {@inheritdoc}
@@ -38,34 +38,35 @@ class DeferredExtension extends \Twig_Extension
         return 'deferred';
     }
 
-    public function defer(\Twig_Template $template, $blockName, array $args)
+    public function defer(\Twig_Template $template, $blockName)
     {
-        if ($this->isResolving) {
-            call_user_func_array(array($template, $blockName), $args);
+        if ($this->scopes) {
+            list($context, $blocks) = end($this->scopes);
+            $template->displayBlock($blockName, $context, $blocks);
 
             return;
         }
 
         $templateName = $template->getTemplateName();
-        $this->blocks[$templateName][] = array($blockName, $args);
+        $this->blocks[$templateName][] = $blockName;
         ob_start();
     }
 
-    public function resolve(\Twig_Template $template)
+    public function resolve(\Twig_Template $template, array $context, array $blocks)
     {
         $templateName = $template->getTemplateName();
         if (empty($this->blocks[$templateName])) {
             return;
         }
 
-        $this->isResolving = true;
+        $this->scopes[] = array($context, $blocks);
 
-        while ($block = array_pop($this->blocks[$templateName])) {
+        while ($blockName = array_pop($this->blocks[$templateName])) {
             $buffer = ob_get_clean();
-            call_user_func_array(array($template, $block[0]), $block[1]);
+            $template->displayBlock($blockName, $context, $blocks);
             echo $buffer;
         }
 
-        $this->isResolving = false;
+        array_pop($this->scopes);
     }
 }
