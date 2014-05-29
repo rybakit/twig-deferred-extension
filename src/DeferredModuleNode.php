@@ -16,7 +16,7 @@ class DeferredModuleNode extends \Twig_Node_Module
         parent::compileDisplayBody($compiler);
 
         $compiler
-            ->write("\$this->env->getExtension('deferred')->resolve(\$this);\n")
+            ->write("\$this->env->getExtension('deferred')->resolve(\$this, \$context, \$blocks);\n")
         ;
     }
 }

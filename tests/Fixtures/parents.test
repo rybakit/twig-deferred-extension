@@ -2,13 +2,13 @@
 deferred tag
 --TEMPLATE--
 {% extends "level2.twig" %}
-{% block foo deferred %}{{ parent() }},level3{% endblock %}
+{% block foo deferred %}level3,{{ parent() }}{% endblock %}
 --TEMPLATE(level2.twig)--
 {% extends "level1.twig" %}
-{% block foo deferred %}{{ parent() }},level2{% endblock %}
+{% block foo deferred %}level2,{{ parent() }}{% endblock %}
 --TEMPLATE(level1.twig)--
 {% block foo deferred %}level1{% endblock %}
 --DATA--
 return array()
 --EXPECT--
-level1,level2,level3
+level3,level2,level1

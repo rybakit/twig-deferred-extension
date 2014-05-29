@@ -16,12 +16,12 @@ class DeferredBlockNode extends \Twig_Node_Block
         $compiler
             ->write("public function block_$name(\$context, array \$blocks = array())\n", "{\n")
             ->indent()
-            ->write("\$this->env->getExtension('deferred')->defer(\$this, 'block_do_$name', array(\$context, \$blocks));\n")
+            ->write("\$this->env->getExtension('deferred')->defer(\$this, '$name', \$context, \$blocks);\n")
             ->outdent()
             ->write("}\n\n")
         ;
 
-        $this->setAttribute('name', 'do_'.$name);
+        $this->setAttribute('name', $name.'_deferred');
         parent::compile($compiler);
         $this->setAttribute('name', $name);
     }

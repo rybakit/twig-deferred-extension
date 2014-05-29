@@ -10,6 +10,11 @@ class DeferredExtension extends \Twig_Extension
     private $blocks = array();
 
     /**
+     * @var array
+     */
+    private $resolvingBlocks = array();
+
+    /**
      * @var bool
      */
     private $isResolving = false;
@@ -38,20 +43,20 @@ class DeferredExtension extends \Twig_Extension
         return 'deferred';
     }
 
-    public function defer(\Twig_Template $template, $blockName, array $args)
+    public function defer(\Twig_Template $template, $blockName, array $context, array $blocks)
     {
         if ($this->isResolving) {
-            call_user_func_array(array($template, $blockName), $args);
+            $this->resolvingBlocks[] = array($template, $blockName);
 
             return;
         }
 
         $templateName = $template->getTemplateName();
-        $this->blocks[$templateName][] = array($blockName, $args);
+        $this->blocks[$templateName][] = $blockName;
         ob_start();
     }
 
-    public function resolve(\Twig_Template $template)
+    public function resolve(\Twig_Template $template, array $context, array $blocks)
     {
         $templateName = $template->getTemplateName();
         if (empty($this->blocks[$templateName])) {
@@ -60,12 +65,23 @@ class DeferredExtension extends \Twig_Extension
 
         $this->isResolving = true;
 
-        while ($block = array_pop($this->blocks[$templateName])) {
+        while ($blockName = array_pop($this->blocks[$templateName])) {
             $buffer = ob_get_clean();
-            call_user_func_array(array($template, $block[0]), $block[1]);
+            $this->resolveBlock($template, $blockName, $context, $blocks);
+
+            while ($block = array_pop($this->resolvingBlocks)) {
+                $this->resolveBlock($block[0], $block[1], $context, $blocks);
+            }
+
             echo $buffer;
         }
 
         $this->isResolving = false;
+    }
+
+    private function resolveBlock(\Twig_Template $template, $blockName, array $context, array $blocks)
+    {
+        $blocks[$blockName] = array($template, 'block_'.$blockName.'_deferred');
+        $template->displayBlock($blockName, $context, $blocks);
     }
 }
