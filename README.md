@@ -20,7 +20,19 @@ $twig = new Twig_Environment($loader);
 $twig->addExtension(new Phive\Twig\Extensions\Deferred\DeferredExtension());
 ```
 
-## "Hello world" Example
+## Simple Example
+
+```jinja
+{# outputs bar #}
+{% block foo deferred %}
+    {{ bar }}
+{% endblock %}
+
+{% set bar = 'bar' %}
+```
+
+
+## Advanced Example
 
 Just for example purposes, first create a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals):
 
@@ -29,33 +41,7 @@ $twig = new Twig_Environment($loader);
 $twig->addGlobal('data', new ArrayObject());
 ```
 
-Then build the following template:
-
-```jinja
-{{ data.append('Hello') }}
-
-{% block foo %}
-    {{ data|join(' ') }}
-{% endblock %}
-
-{{ data.append('world!') }}
-```
-
-The output of this template will be `Hello`, which is predictable because Twig tags are processed consecutively, one by one.
-
-Now, let's mark the `foo` block with `deferred` keyword to inform Twig engine to defer the rendering of this block.
-It has to be placed just after the block name:
-
-```jinja
-{% block foo deferred %}
-```
-
-And here it is, we get desired `Hello world!` output.
-
-
-## Advanced Example
-
-Consider the following set of templates:
+Then build the following set of templates:
 
 ```jinja
 {# layout.html.twig #}

@@ -3,9 +3,9 @@ deferred tag
 --TEMPLATE--
 {% block foo deferred %}
     {{ foo }}
-    {% block bar deferred %}
+    {%- block bar deferred -%}
         {{ bar }}
-    {% endblock %}
+    {%- endblock -%}
     {% set bar = 'bar' %}
 {% endblock %}
 {% set foo = 'foo' %}
