@@ -1,0 +1,15 @@
+--TEST--
+deferred tag
+--TEMPLATE--
+{% block foo deferred %}
+    {{ foo }}
+    {%- block bar deferred -%}
+        {{ bar }}
+    {%- endblock -%}
+    {% set bar = 'bar' %}
+{% endblock %}
+{% set foo = 'foo' %}
+--DATA--
+return array()
+--EXPECT--
+foobar

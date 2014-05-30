@@ -14,11 +14,9 @@ class DeferredTokenParser extends \Twig_TokenParser_Block
             throw new \Twig_Error_Syntax(sprintf("The block '$name' has already been defined line %d", $this->parser->getBlock($name)->getLine()), $stream->getCurrent()->getLine(), $stream->getFilename());
         }
 
-        $block = new \Twig_Node_Block($name, new \Twig_Node(array()), $lineno);
-
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')) {
-            $block = new DeferredBlockNode($block);
-        }
+        $block = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')
+            ? new DeferredBlockNode($name, new \Twig_Node(array()), $lineno)
+            : new \Twig_Node_Block($name, new \Twig_Node(array()), $lineno);
 
         $this->parser->setBlock($name, $block);
         $this->parser->pushLocalScope();
@@ -29,7 +27,7 @@ class DeferredTokenParser extends \Twig_TokenParser_Block
             if ($token = $stream->nextIf(\Twig_Token::NAME_TYPE)) {
                 $value = $token->getValue();
 
-                if ($value != $name) {
+                if ($value !== $name) {
                     throw new \Twig_Error_Syntax(sprintf("Expected endblock for block '$name' (but %s given)", $value), $stream->getCurrent()->getLine(), $stream->getFilename());
                 }
             }

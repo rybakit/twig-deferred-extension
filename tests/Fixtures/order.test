@@ -1,0 +1,9 @@
+--TEST--
+deferred tag
+--TEMPLATE--
+{% block foo deferred %}foo{% endblock %}
+{% block bar deferred %}bar{% endblock %}
+--DATA--
+return array()
+--EXPECT--
+foobar
