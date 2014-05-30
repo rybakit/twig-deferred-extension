@@ -1,9 +1,12 @@
 --TEST--
 deferred tag
 --TEMPLATE--
-{% block foo deferred %}foo{% endblock %}
-{% block bar deferred %}bar{% endblock %}
+1
+{%- block foo deferred %}2{% endblock -%}
+3
+{%- block bar deferred %}4{% endblock -%}
+5
 --DATA--
 return array()
 --EXPECT--
-foobar
+12345
