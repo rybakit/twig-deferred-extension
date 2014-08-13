@@ -9,7 +9,7 @@ An extension for Twig that allows to defer block rendering.
 The recommended way to install the extension is through [Composer](http://getcomposer.org):
 
 ```sh
-$ composer require phive/twig-extensions-deferred:dev-master
+$ composer require phive/twig-extensions-deferred:~1.0@dev
 ```
 
 
@@ -123,4 +123,4 @@ The resulting html will be the following:
 
 ## License
 
-Deferred Twig Extension is released under the MIT License. See the bundled LICENSE file for details.
+Deferred Twig Extension is released under the MIT License. See the bundled [LICENSE](LICENSE) file for details.

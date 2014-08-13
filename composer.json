@@ -23,5 +23,10 @@
         "psr-4": {
             "Phive\\Twig\\Extensions\\Tests\\Deferred\\": "tests/"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
