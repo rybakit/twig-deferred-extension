@@ -9,11 +9,11 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="vendor/autoload.php"
         >
 
     <testsuites>
-        <testsuite name="Twig Test Suite">
+        <testsuite name="Deferred Twig Extension Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

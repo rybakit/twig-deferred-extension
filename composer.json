@@ -18,5 +18,10 @@
         "psr-4": {
             "Phive\\Twig\\Extensions\\Deferred\\": "src/"
         }
+    },
+    "autoload-dev" : {
+        "psr-4": {
+            "Phive\\Twig\\Extensions\\Tests\\Deferred\\": "tests/"
+        }
     }
 }
