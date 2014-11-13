@@ -49,6 +49,10 @@ Then build the following set of templates:
 <html>
     <head>
         ...
+    </head>
+    <body>
+        {% block content '' %}
+
         {{ data.append('/js/layout-header.js') }}
 
         {% block javascripts deferred %}
@@ -56,9 +60,7 @@ Then build the following set of templates:
                 <script src="{{ item }}"></script>
             {% endfor %}
         {% endblock %}
-    </head>
-    <body>
-        {% block content '' %}
+        
         {{ data.append('/js/layout-footer.js') }}
     </body>
 </html>
@@ -95,13 +97,13 @@ The resulting html will be the following:
 <html>
     <head>
         ...
+    </head>
+    <body>
         <script src="/js/layout-header.js"></script>
         <script src="/js/page-header.js"></script>
         <script src="/js/subpage1.js"></script>
         <script src="/js/page-footer.js"></script>
         <script src="/js/layout-footer.js"></script>
-    </head>
-    <body>
     </body>
 </html>
 ```
