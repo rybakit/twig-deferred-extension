@@ -15,4 +15,4 @@ matrix:
 before_script:
     - composer install
 
-script: phpunit -v
+script: phpunit
