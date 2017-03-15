@@ -7,6 +7,6 @@ deferred tag
 {%- block bar deferred %}4{% endblock -%}
 5
 --DATA--
-return array()
+return []
 --EXPECT--
 12345

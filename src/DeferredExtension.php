@@ -4,33 +4,16 @@ namespace Phive\Twig\Extensions\Deferred;
 
 class DeferredExtension extends \Twig_Extension
 {
-    /**
-     * @var array
-     */
-    private $blocks = array();
+    private $blocks = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTokenParsers()
     {
-        return array(new DeferredTokenParser());
+        return [new DeferredTokenParser()];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeVisitors()
     {
-        return array(new DeferredNodeVisitor());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'deferred';
+        return [new DeferredNodeVisitor()];
     }
 
     public function defer(\Twig_Template $template, $blockName)
@@ -50,7 +33,7 @@ class DeferredExtension extends \Twig_Extension
         while ($blockName = array_pop($this->blocks[$templateName])) {
             $buffer = ob_get_clean();
 
-            $blocks[$blockName] = array($template, 'block_'.$blockName.'_deferred');
+            $blocks[$blockName] = [$template, 'block_'.$blockName.'_deferred'];
             $template->displayBlock($blockName, $context, $blocks);
 
             echo $buffer;

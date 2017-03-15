@@ -14,15 +14,15 @@ class DeferredTokenParser extends \Twig_TokenParser
         }
 
         $block = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')
-            ? new DeferredBlockNode($name, new \Twig_Node(array()), $lineno)
-            : new \Twig_Node_Block($name, new \Twig_Node(array()), $lineno);
+            ? new DeferredBlockNode($name, new \Twig_Node([]), $lineno)
+            : new \Twig_Node_Block($name, new \Twig_Node([]), $lineno);
 
         $this->parser->setBlock($name, $block);
         $this->parser->pushLocalScope();
         $this->parser->pushBlockStack($name);
 
         if ($stream->nextIf(\Twig_Token::BLOCK_END_TYPE)) {
-            $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
+            $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
             if ($token = $stream->nextIf(\Twig_Token::NAME_TYPE)) {
                 $value = $token->getValue();
 
@@ -31,9 +31,9 @@ class DeferredTokenParser extends \Twig_TokenParser
                 }
             }
         } else {
-            $body = new \Twig_Node(array(
+            $body = new \Twig_Node([
                 new \Twig_Node_Print($this->parser->getExpressionParser()->parseExpression(), $lineno),
-            ));
+            ]);
         }
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 

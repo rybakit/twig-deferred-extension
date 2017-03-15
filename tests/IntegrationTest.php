@@ -8,10 +8,10 @@ class IntegrationTest extends \Twig_Test_IntegrationTestCase
 {
     public function getExtensions()
     {
-        return array(
+        return [
             new DeferredExtension(),
             new TestExtension(),
-        );
+        ];
     }
 
     public function getFixturesDir()

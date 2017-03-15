@@ -18,7 +18,7 @@ class TestNodeVisitor implements \Twig_NodeVisitorInterface
     public function leaveNode(\Twig_Node $node, \Twig_Environment $env)
     {
         if ($node instanceof \Twig_Node_Module) {
-            $node->setNode('display_end', new \Twig_Node(array(new TestNode(), $node->getNode('display_end'))));
+            $node->setNode('display_end', new \Twig_Node([new TestNode(), $node->getNode('display_end')]));
         }
 
         return $node;

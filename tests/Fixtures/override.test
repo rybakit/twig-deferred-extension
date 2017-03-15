@@ -9,6 +9,6 @@ deferred tag
 {%- block bar %}bar is not deferred{% endblock %}
 {{ data.append(true) }}
 --DATA--
-return array()
+return []
 --EXPECT--
 foo is not deferred,bar is deferred

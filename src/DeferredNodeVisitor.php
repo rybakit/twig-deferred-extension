@@ -24,7 +24,7 @@ class DeferredNodeVisitor implements \Twig_NodeVisitorInterface
     public function leaveNode(\Twig_Node $node, \Twig_Environment $env)
     {
         if ($this->hasDeferred && $node instanceof \Twig_Node_Module) {
-            $node->setNode('display_end', new \Twig_Node(array(new DeferredNode(), $node->getNode('display_end'))));
+            $node->setNode('display_end', new \Twig_Node([new DeferredNode(), $node->getNode('display_end')]));
             $this->hasDeferred = false;
         }
 
