@@ -10,7 +10,7 @@ The recommended way to install the extension is through [Composer](http://getcom
 
 ```sh
 $ composer require phive/twig-extensions-deferred:^1.0 # for Twig 1.x
-$ composer require phive/twig-extensions-deferred:dev-master # for Twig 2.x
+$ composer require phive/twig-extensions-deferred:^2.0 # for Twig 2.x
 ```
 
 
