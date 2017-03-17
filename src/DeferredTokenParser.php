@@ -2,47 +2,56 @@
 
 namespace Phive\Twig\Extensions\Deferred;
 
-class DeferredTokenParser extends \Twig_TokenParser_Block
+class DeferredTokenParser extends \Twig_TokenParser
 {
+    private $blockTokenParser;
+
+    public function setParser(\Twig_Parser $parser)
+    {
+        parent::setParser($parser);
+
+        $this->blockTokenParser = new \Twig_TokenParser_Block();
+        $this->blockTokenParser->setParser($parser);
+    }
+
     public function parse(\Twig_Token $token)
     {
-        $lineno = $token->getLine();
         $stream = $this->parser->getStream();
-        $name = $stream->expect(\Twig_Token::NAME_TYPE)->getValue();
+        $nameToken = $stream->next();
+        $deferredToken = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred');
+        $stream->injectTokens([$nameToken]);
 
-        if ($this->parser->hasBlock($name)) {
-            throw new \Twig_Error_Syntax(sprintf("The block '$name' has already been defined line %d", $this->parser->getBlock($name)->getLine()), $stream->getCurrent()->getLine(), $stream->getFilename());
+        $node = $this->blockTokenParser->parse($token);
+
+        if ($deferredToken) {
+            $this->replaceBlockNode($nameToken->getValue());
         }
 
-        $block = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')
-            ? new DeferredBlockNode($name, new \Twig_Node(array()), $lineno)
-            : new \Twig_Node_Block($name, new \Twig_Node(array()), $lineno);
+        return $node;
+    }
 
-        $this->parser->setBlock($name, $block);
-        $this->parser->pushLocalScope();
-        $this->parser->pushBlockStack($name);
+    public function getTag()
+    {
+        return 'block';
+    }
 
-        if ($stream->nextIf(\Twig_Token::BLOCK_END_TYPE)) {
-            $body = $this->parser->subparse(array($this, 'decideBlockEnd'), true);
-            if ($token = $stream->nextIf(\Twig_Token::NAME_TYPE)) {
-                $value = $token->getValue();
+    private function replaceBlockNode($name)
+    {
+        $block = $this->parser->getBlock($name)->getNode(0);
+        $this->parser->setBlock($name, $this->createDeferredBlockNode($block));
+    }
 
-                if ($value !== $name) {
-                    throw new \Twig_Error_Syntax(sprintf("Expected endblock for block '$name' (but %s given)", $value), $stream->getCurrent()->getLine(), $stream->getFilename());
-                }
-            }
-        } else {
-            $body = new \Twig_Node(array(
-                new \Twig_Node_Print($this->parser->getExpressionParser()->parseExpression(), $lineno),
-            ));
+    private function createDeferredBlockNode(\Twig_Node_Block $block)
+    {
+        $name = $block->getAttribute('name');
+        $deferredBlock = new DeferredBlockNode($name, new \Twig_Node([]), $block->getTemplateLine());
+
+        foreach ($block as $nodeName => $node) {
+            $deferredBlock->setNode($nodeName, $node);
         }
 
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $deferredBlock->setTemplateName($block->getTemplateName());
 
-        $block->setNode('body', $body);
-        $this->parser->popBlockStack();
-        $this->parser->popLocalScope();
-
-        return new \Twig_Node_BlockReference($name, $lineno, $this->getTag());
+        return $deferredBlock;
     }
 }

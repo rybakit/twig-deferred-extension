@@ -10,6 +10,6 @@ deferred tag
 {% endblock %}
 {% set foo = 'foo' %}
 --DATA--
-return array()
+return []
 --EXPECT--
 foobar

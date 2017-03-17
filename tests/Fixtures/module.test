@@ -3,7 +3,7 @@ deferred tag
 --TEMPLATE--
 {% block foo deferred %}deferred content{% endblock %}
 --DATA--
-return array('body_extra' => "\ncustom module content")
+return ['body_extra' => "\ncustom module content"]
 --EXPECT--
 deferred content
 custom module content

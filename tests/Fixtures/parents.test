@@ -9,6 +9,6 @@ deferred tag
 --TEMPLATE(level1.twig)--
 {% block foo deferred %}level1{% endblock %}
 --DATA--
-return array()
+return []
 --EXPECT--
 level1,level2,level3
