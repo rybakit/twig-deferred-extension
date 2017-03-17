@@ -13,6 +13,11 @@ php:
     - 7.0
     - 7.1
     - hhvm
+    - hhvm-nightly
+
+allow_failures:
+    - hhvm
+    - hhvm-nightly
 
 before_script:
     - if [[ $TRAVIS_PHP_VERSION != hhvm* ]]; then composer install; else composer install --ignore-platform-reqs; fi
