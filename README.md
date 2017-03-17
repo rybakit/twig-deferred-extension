@@ -1,6 +1,6 @@
 Deferred Twig Extension
 =======================
-[![Build Status](https://travis-ci.org/rybakit/twig-extensions-deferred.svg?branch=master)](https://travis-ci.org/rybakit/twig-extensions-deferred)
+[![Build Status](https://travis-ci.org/rybakit/twig-extensions-deferred.svg?branch=1.x)](https://travis-ci.org/rybakit/twig-extensions-deferred)
 
 An extension for Twig that allows to defer block rendering.
 
@@ -9,7 +9,8 @@ An extension for Twig that allows to defer block rendering.
 The recommended way to install the extension is through [Composer](http://getcomposer.org):
 
 ```sh
-$ composer require phive/twig-extensions-deferred:^1.0
+$ composer require phive/twig-extensions-deferred:^1.0 # for Twig 1.x
+$ composer require phive/twig-extensions-deferred:^2.0 # for Twig 2.x
 ```
 
 
