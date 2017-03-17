@@ -4,53 +4,54 @@ namespace Phive\Twig\Extensions\Deferred;
 
 class DeferredTokenParser extends \Twig_TokenParser
 {
-    public function parse(\Twig_Token $token)
+    private $blockTokenParser;
+
+    public function setParser(\Twig_Parser $parser)
     {
-        $lineno = $token->getLine();
-        $stream = $this->parser->getStream();
-        $name = $stream->expect(\Twig_Token::NAME_TYPE)->getValue();
-        if ($this->parser->hasBlock($name)) {
-            throw new \Twig_Error_Syntax(sprintf("The block '%s' has already been defined line %d.", $name, $this->parser->getBlock($name)->getTemplateLine()), $stream->getCurrent()->getLine(), $stream->getSourceContext());
-        }
+        parent::setParser($parser);
 
-        $block = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred')
-            ? new DeferredBlockNode($name, new \Twig_Node([]), $lineno)
-            : new \Twig_Node_Block($name, new \Twig_Node([]), $lineno);
-
-        $this->parser->setBlock($name, $block);
-        $this->parser->pushLocalScope();
-        $this->parser->pushBlockStack($name);
-
-        if ($stream->nextIf(\Twig_Token::BLOCK_END_TYPE)) {
-            $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-            if ($token = $stream->nextIf(\Twig_Token::NAME_TYPE)) {
-                $value = $token->getValue();
-
-                if ($value != $name) {
-                    throw new \Twig_Error_Syntax(sprintf('Expected endblock for block "%s" (but "%s" given).', $name, $value), $stream->getCurrent()->getLine(), $stream->getSourceContext());
-                }
-            }
-        } else {
-            $body = new \Twig_Node([
-                new \Twig_Node_Print($this->parser->getExpressionParser()->parseExpression(), $lineno),
-            ]);
-        }
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
-
-        $block->setNode('body', $body);
-        $this->parser->popBlockStack();
-        $this->parser->popLocalScope();
-
-        return new \Twig_Node_BlockReference($name, $lineno, $this->getTag());
+        $this->blockTokenParser = new \Twig_TokenParser_Block();
+        $this->blockTokenParser->setParser($parser);
     }
 
-    public function decideBlockEnd(\Twig_Token $token)
+    public function parse(\Twig_Token $token)
     {
-        return $token->test('endblock');
+        $stream = $this->parser->getStream();
+        $nameToken = $stream->next();
+        $deferredToken = $stream->nextIf(\Twig_Token::NAME_TYPE, 'deferred');
+        $stream->injectTokens([$nameToken]);
+
+        $node = $this->blockTokenParser->parse($token);
+
+        if ($deferredToken) {
+            $this->replaceBlockNode($nameToken->getValue());
+        }
+
+        return $node;
     }
 
     public function getTag()
     {
         return 'block';
+    }
+
+    private function replaceBlockNode($name)
+    {
+        $block = $this->parser->getBlock($name)->getNode(0);
+        $this->parser->setBlock($name, $this->createDeferredBlockNode($block));
+    }
+
+    private function createDeferredBlockNode(\Twig_Node_Block $block)
+    {
+        $name = $block->getAttribute('name');
+        $deferredBlock = new DeferredBlockNode($name, new \Twig_Node([]), $block->getTemplateLine());
+
+        foreach ($block as $nodeName => $node) {
+            $deferredBlock->setNode($nodeName, $node);
+        }
+
+        $deferredBlock->setTemplateName($block->getTemplateName());
+
+        return $deferredBlock;
     }
 }
