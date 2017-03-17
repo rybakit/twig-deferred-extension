@@ -9,17 +9,24 @@ cache:
         - vendor
         - $HOME/.composer/cache
 
-php:
-    - 7.0
-    - 7.1
-    - hhvm
-    - hhvm-nightly
+matrix:
+    include:
+        - php: hhvm-stable
+          sudo: required
+          dist: trusty
+        - php: 7.0
+        - php: 7.1
+    allow_failures:
+        - php: hhvm-stable
+    fast_finish: true
 
 allow_failures:
     - hhvm
     - hhvm-nightly
 
-before_script:
-    - if [[ $TRAVIS_PHP_VERSION != hhvm* ]]; then composer install; else composer install --ignore-platform-reqs; fi
+before_install:
+    - if [[ $TRAVIS_PHP_VERSION = hhvm* ]]; then echo hhvm.php7.all=1 >> /etc/hhvm/php.ini; fi
+    - composer install
 
-script: phpunit
+install:
+    - travis_retry composer install
