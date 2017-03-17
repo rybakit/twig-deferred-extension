@@ -15,6 +15,6 @@ php:
     - hhvm
 
 before_script:
-    - composer install
+    - if [[ $TRAVIS_PHP_VERSION != hhvm* ]]; then composer install; else composer install --ignore-platform-reqs; fi
 
 script: phpunit
