@@ -12,6 +12,7 @@ matrix:
           dist: trusty
         - php: 7.0
         - php: 7.1
+        - php: 7.2
     allow_failures:
         - php: hhvm-stable
     fast_finish: true
