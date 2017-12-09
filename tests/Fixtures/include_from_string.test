@@ -8,10 +8,10 @@ include template from string
     {{ data.append('page-footer') }}
 {% endblock %}
 --TEMPLATE(layout.twig)--
-{% block content '' %}
 {% block assets deferred %}
     {{ data|join(',') }}
 {% endblock %}
+{% block content '' %}
 --DATA--
 return []
 --EXPECT--

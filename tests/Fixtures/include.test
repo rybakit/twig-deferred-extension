@@ -8,10 +8,10 @@ include
     {{ data.append('page-footer') }}
 {% endblock %}
 --TEMPLATE(layout.twig)--
-{% block content '' %}
 {% block assets deferred %}
     {{ data|join(',') }}
 {% endblock %}
+{% block content '' %}
 --TEMPLATE(subpage.twig)--
 {{ data.append('subpage') }}
 --DATA--
