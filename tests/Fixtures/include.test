@@ -3,8 +3,9 @@ include
 --TEMPLATE--
 {% extends "layout.twig" %}
 {% block content %}
-    {{ data.append('page') }}
+    {{ data.append('page-header') }}
     {{ include("subpage.twig") }}
+    {{ data.append('page-footer') }}
 {% endblock %}
 --TEMPLATE(layout.twig)--
 {% block content '' %}
@@ -16,4 +17,4 @@ include
 --DATA--
 return []
 --EXPECT--
-page,subpage
+page-header,subpage,page-footer

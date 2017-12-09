@@ -3,8 +3,9 @@ include template from string
 --TEMPLATE--
 {% extends "layout.twig" %}
 {% block content %}
-    {{ data.append('page') }}
+    {{ data.append('page-header') }}
     {{ include(template_from_string("{{ data.append('subpage') }}")) }}
+    {{ data.append('page-footer') }}
 {% endblock %}
 --TEMPLATE(layout.twig)--
 {% block content '' %}
@@ -14,4 +15,4 @@ include template from string
 --DATA--
 return []
 --EXPECT--
-page,subpage
+page-header,subpage,page-footer
