@@ -1,5 +1,5 @@
 --TEST--
-deferred tag
+override
 --TEMPLATE--
 {% extends "layout.twig" %}
 {% block foo %}foo is{{ data|first ? '' : ' not' }} deferred{% endblock %}

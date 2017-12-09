@@ -11,6 +11,7 @@ class IntegrationTest extends \Twig_Test_IntegrationTestCase
         return [
             new DeferredExtension(),
             new TestExtension(),
+            new \Twig_Extension_StringLoader(),
         ];
     }
 

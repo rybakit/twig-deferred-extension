@@ -1,5 +1,5 @@
 --TEST--
-deferred tag
+order
 --TEMPLATE--
 1
 {%- block foo deferred %}2{% endblock -%}

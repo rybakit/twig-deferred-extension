@@ -1,5 +1,5 @@
 --TEST--
-deferred tag
+nested
 --TEMPLATE--
 {% block foo deferred %}
     {{ foo }}

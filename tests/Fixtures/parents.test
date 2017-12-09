@@ -1,5 +1,5 @@
 --TEST--
-deferred tag
+parents
 --TEMPLATE--
 {% extends "level2.twig" %}
 {% block foo deferred %}{{ parent() }},level3{% endblock %}

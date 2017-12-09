@@ -1,0 +1,19 @@
+--TEST--
+include
+--TEMPLATE--
+{% extends "layout.twig" %}
+{% block content %}
+    {{ data.append('page') }}
+    {{ include("subpage.twig") }}
+{% endblock %}
+--TEMPLATE(layout.twig)--
+{% block content '' %}
+{% block assets deferred %}
+    {{ data|join(',') }}
+{% endblock %}
+--TEMPLATE(subpage.twig)--
+{{ data.append('subpage') }}
+--DATA--
+return []
+--EXPECT--
+page,subpage

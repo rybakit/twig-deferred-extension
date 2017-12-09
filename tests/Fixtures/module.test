@@ -1,5 +1,5 @@
 --TEST--
-deferred tag
+module
 --TEMPLATE--
 {% block foo deferred %}deferred content{% endblock %}
 --DATA--

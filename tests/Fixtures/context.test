@@ -1,5 +1,5 @@
 --TEST--
-deferred tag
+context
 --TEMPLATE--
 {% block foo deferred %}{{ bar }}{% endblock %}
 {% set bar = 'bar' %}
