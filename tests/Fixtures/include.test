@@ -4,7 +4,8 @@ include
 {% extends "layout.twig" %}
 {% block content %}
     {{ data.append('page-header') }}
-    {{ include("subpage.twig") }}
+    {{ include("subpage1.twig") }}
+    {{ include(template_from_string("{{ data.append('subpage2') }}")) }}
     {{ data.append('page-footer') }}
 {% endblock %}
 --TEMPLATE(layout.twig)--
@@ -12,9 +13,9 @@ include
     {{ data|join(',') }}
 {% endblock %}
 {% block content '' %}
---TEMPLATE(subpage.twig)--
-{{ data.append('subpage') }}
+--TEMPLATE(subpage1.twig)--
+{{ data.append('subpage1') }}
 --DATA--
 return []
 --EXPECT--
-page-header,subpage,page-footer
+page-header,subpage1,subpage2,page-footer
