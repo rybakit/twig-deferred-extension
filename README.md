@@ -40,7 +40,7 @@ Just for example purposes, first create a [global twig variable](http://twig.sen
 
 ```php
 $twig = new Twig_Environment($loader);
-$twig->addGlobal('data', new ArrayObject());
+$twig->addGlobal('assets', new ArrayObject());
 ```
 
 Then build the following set of templates:
@@ -55,15 +55,15 @@ Then build the following set of templates:
     <body>
         {% block content '' %}
 
-        {{ data.append('/js/layout-header.js') }}
+        {{ assets.append('/js/layout-header.js') }}
 
         {% block javascripts deferred %}
-            {% for item in data %}
-                <script src="{{ item }}"></script>
+            {% for asset in assets %}
+                <script src="{{ asset }}"></script>
             {% endfor %}
         {% endblock %}
 
-        {{ data.append('/js/layout-footer.js') }}
+        {{ assets.append('/js/layout-footer.js') }}
     </body>
 </html>
 
@@ -72,7 +72,7 @@ Then build the following set of templates:
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    {{ data.append('/js/page-header.js') }}
+    {{ assets.append('/js/page-header.js') }}
 
     {% if foo is not defined %}
         {{ include("subpage1.html.twig") }}
@@ -80,16 +80,16 @@ Then build the following set of templates:
         {{ include("subpage2.html.twig") }}
     {% endif %}
 
-    {{ data.append('/js/page-footer.js') }}
+    {{ assets.append('/js/page-footer.js') }}
 {% endblock %}
 
 
 {# subpage1.html.twig #}
-{{ data.append('/js/subpage1.js') }}
+{{ assets.append('/js/subpage1.js') }}
 
 
 {# subpage2.html.twig #}
-{{ data.append('/js/subpage2.js') }}
+{{ assets.append('/js/subpage2.js') }}
 ```
 
 The resulting html will be the following:
