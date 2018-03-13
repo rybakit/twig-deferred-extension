@@ -74,7 +74,7 @@ Then build the following set of templates:
 {% block content %}
     {{ assets.append('/js/page-header.js') }}
 
-    {% if foo is not defined %}
+    {% if foo is defined %}
         {{ include("subpage1.html.twig") }}
     {% else %}
         {{ include("subpage2.html.twig") }}
@@ -103,7 +103,7 @@ The resulting html will be the following:
     <body>
         <script src="/js/layout-header.js"></script>
         <script src="/js/page-header.js"></script>
-        <script src="/js/subpage1.js"></script>
+        <script src="/js/subpage2.js"></script>
         <script src="/js/page-footer.js"></script>
         <script src="/js/layout-footer.js"></script>
     </body>
