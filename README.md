@@ -19,14 +19,18 @@ $ composer require phive/twig-extensions-deferred:^2.0 # for Twig 2.x
 ## Initialization
 
 ```php
-$twig = new Twig_Environment($loader);
-$twig->addExtension(new Phive\Twig\Extensions\Deferred\DeferredExtension());
+use Phive\Twig\Extensions\Deferred\DeferredExtension;
+use Twig\Environment;
+
+...
+
+$twig = new Environment($loader);
+$twig->addExtension(new DeferredExtension());
 ```
 
 ## Simple Example
 
 ```jinja
-{# outputs bar #}
 {% block foo deferred %}
     {{ bar }}
 {% endblock %}
@@ -34,13 +38,19 @@ $twig->addExtension(new Phive\Twig\Extensions\Deferred\DeferredExtension());
 {% set bar = 'bar' %}
 ```
 
+The `foo` block will output "bar".
+
 
 ## Advanced Example
 
 Just for example purposes, first create a [global twig variable](http://twig.sensiolabs.org/doc/advanced.html#globals):
 
 ```php
-$twig = new Twig_Environment($loader);
+use Twig\Environment;
+
+...
+
+$twig = new Environment($loader);
 $twig->addGlobal('assets', new ArrayObject());
 ```
 
