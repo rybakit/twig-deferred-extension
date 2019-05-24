@@ -2,12 +2,17 @@
 
 namespace Phive\Twig\Extensions\Tests\Deferred;
 
-class TestNodeVisitor implements \Twig_NodeVisitorInterface
+use Twig\Environment;
+use Twig\Node\ModuleNode;
+use Twig\Node\Node;
+use Twig\NodeVisitor\NodeVisitorInterface;
+
+class TestNodeVisitor implements NodeVisitorInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function enterNode(\Twig_Node $node, \Twig_Environment $env)
+    public function enterNode(Node $node, Environment $env)
     {
         return $node;
     }
@@ -15,10 +20,10 @@ class TestNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * {@inheritdoc}
      */
-    public function leaveNode(\Twig_Node $node, \Twig_Environment $env)
+    public function leaveNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig_Node_Module) {
-            $node->setNode('display_end', new \Twig_Node([new TestNode(), $node->getNode('display_end')]));
+        if ($node instanceof ModuleNode) {
+            $node->setNode('display_end', new Node([new TestNode(), $node->getNode('display_end')]));
         }
 
         return $node;

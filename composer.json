@@ -12,7 +12,10 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1"
     },
     "autoload": {
         "psr-4": {
@@ -23,5 +26,11 @@
         "psr-4": {
             "Phive\\Twig\\Extensions\\Tests\\Deferred\\": "tests/"
         }
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     }
 }

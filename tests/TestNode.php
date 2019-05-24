@@ -2,9 +2,12 @@
 
 namespace Phive\Twig\Extensions\Tests\Deferred;
 
-class TestNode extends \Twig_Node
+use Twig\Compiler;
+use Twig\Node\Node;
+
+class TestNode extends Node
 {
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $compiler
             ->write("if (isset(\$context['body_extra'])) {\n")

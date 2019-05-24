@@ -2,7 +2,10 @@
 
 namespace Phive\Twig\Extensions\Deferred;
 
-class DeferredExtension extends \Twig_Extension
+use Twig\Extension\AbstractExtension;
+use Twig\Template;
+
+class DeferredExtension extends AbstractExtension
 {
     private $blocks = [];
 
@@ -16,14 +19,14 @@ class DeferredExtension extends \Twig_Extension
         return [new DeferredNodeVisitor()];
     }
 
-    public function defer(\Twig_Template $template, $blockName)
+    public function defer(Template $template, $blockName)
     {
         $templateName = $template->getTemplateName();
         $this->blocks[$templateName][] = $blockName;
         ob_start();
     }
 
-    public function resolve(\Twig_Template $template, array $context, array $blocks)
+    public function resolve(Template $template, array $context, array $blocks)
     {
         $templateName = $template->getTemplateName();
         if (empty($this->blocks[$templateName])) {

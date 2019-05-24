@@ -2,9 +2,12 @@
 
 namespace Phive\Twig\Extensions\Deferred;
 
-class DeferredBlockNode extends \Twig_Node_Block
+use Twig\Compiler;
+use Twig\Node\BlockNode;
+
+class DeferredBlockNode extends BlockNode
 {
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $name = $this->getAttribute('name');
 

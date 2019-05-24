@@ -2,14 +2,19 @@
 
 namespace Phive\Twig\Extensions\Deferred;
 
-class DeferredNodeVisitor implements \Twig_NodeVisitorInterface
+use Twig\Environment;
+use Twig\Node\ModuleNode;
+use Twig\Node\Node;
+use Twig\NodeVisitor\NodeVisitorInterface;
+
+class DeferredNodeVisitor implements NodeVisitorInterface
 {
     private $hasDeferred = false;
 
     /**
      * {@inheritdoc}
      */
-    public function enterNode(\Twig_Node $node, \Twig_Environment $env)
+    public function enterNode(Node $node, Environment $env)
     {
         if (!$this->hasDeferred && $node instanceof DeferredBlockNode) {
             $this->hasDeferred = true;
@@ -21,10 +26,10 @@ class DeferredNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * {@inheritdoc}
      */
-    public function leaveNode(\Twig_Node $node, \Twig_Environment $env)
+    public function leaveNode(Node $node, Environment $env)
     {
-        if ($this->hasDeferred && $node instanceof \Twig_Node_Module) {
-            $node->setNode('display_end', new \Twig_Node([new DeferredNode(), $node->getNode('display_end')]));
+        if ($this->hasDeferred && $node instanceof ModuleNode) {
+            $node->setNode('display_end', new Node([new DeferredNode(), $node->getNode('display_end')]));
             $this->hasDeferred = false;
         }
 

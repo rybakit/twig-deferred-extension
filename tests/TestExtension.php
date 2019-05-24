@@ -2,7 +2,10 @@
 
 namespace Phive\Twig\Extensions\Tests\Deferred;
 
-class TestExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+
+class TestExtension extends AbstractExtension implements GlobalsInterface
 {
     public function getGlobals()
     {
