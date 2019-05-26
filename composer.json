@@ -14,6 +14,9 @@
     "require": {
         "twig/twig": "^2.8"
     },
+    "require-dev": {
+      "phpunit/phpunit": "^6.5"
+    },
     "autoload": {
         "psr-4": {
             "Phive\\Twig\\Extensions\\Deferred\\": "src/"
@@ -32,8 +35,5 @@
             "*": "dist"
         },
         "sort-packages": true
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^6.5"
     }
 }
