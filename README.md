@@ -1,27 +1,27 @@
-Deferred Twig Extension
+Twig Deferred Extension
 =======================
 
 [![Build Status](https://travis-ci.org/rybakit/twig-deferred-extension.svg?branch=master)](https://travis-ci.org/rybakit/twig-deferred-extension)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rybakit/twig-deferred-extension/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rybakit/twig-deferred-extension/?branch=master)
 [![Mentioned in Awesome Twig](https://awesome.re/mentioned-badge.svg)](https://github.com/JulienRAVIA/awesome-twig#extensions)
 
-An extension for Twig that allows to defer block rendering.
+An extension for [Twig](https://twig.symfony.com/) that allows to defer block rendering.
 
 
 ## Installation
 
-The recommended way to install the extension is through [Composer](http://getcomposer.org):
-
-```sh
-$ composer require phive/twig-extensions-deferred:^1.0 # for Twig 1.x
-$ composer require phive/twig-extensions-deferred:^2.0 # for Twig 2.x
+```bash
+composer require rybakit/twig-deferred-extension
 ```
+
+> *Note that this extension requires Twig 3 or above. If you need support for older versions of Twig,
+> please refer to the [legacy repository](https://github.com/rybakit/twig-extensions-deferred-legacy).* 
 
 
 ## Initialization
 
 ```php
-use Phive\Twig\Extensions\Deferred\DeferredExtension;
+use Twig\DeferredExtension\DeferredExtension;
 use Twig\Environment;
 
 ...
@@ -53,7 +53,7 @@ use Twig\Environment;
 ...
 
 $twig = new Environment($loader);
-$twig->addGlobal('assets', new ArrayObject());
+$twig->addGlobal('assets', new \ArrayObject());
 ```
 
 Then build the following set of templates:
@@ -140,4 +140,4 @@ The resulting html will be the following:
 
 ## License
 
-Deferred Twig Extension is released under the MIT License. See the bundled [LICENSE](LICENSE) file for details.
+The library is released under the MIT License. See the bundled [LICENSE](LICENSE) file for details.

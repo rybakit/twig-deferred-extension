@@ -1,6 +1,17 @@
 <?php
 
-namespace Phive\Twig\Extensions\Deferred;
+/**
+ * This file is part of the rybakit/twig-deferred-extension package.
+ *
+ * (c) Eugene Leonovich <gen.work@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Twig\DeferredExtension;
 
 use Twig\Node\BlockNode;
 use Twig\Node\Node;
@@ -9,11 +20,11 @@ use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
 use Twig\TokenParser\BlockTokenParser;
 
-class DeferredTokenParser extends AbstractTokenParser
+final class DeferredTokenParser extends AbstractTokenParser
 {
     private $blockTokenParser;
 
-    public function setParser(Parser $parser)
+    public function setParser(Parser $parser) : void
     {
         parent::setParser($parser);
 
@@ -21,7 +32,7 @@ class DeferredTokenParser extends AbstractTokenParser
         $this->blockTokenParser->setParser($parser);
     }
 
-    public function parse(Token $token)
+    public function parse(Token $token) : Node
     {
         $stream = $this->parser->getStream();
         $nameToken = $stream->next();
@@ -37,18 +48,18 @@ class DeferredTokenParser extends AbstractTokenParser
         return $node;
     }
 
-    public function getTag()
+    public function getTag() : string
     {
         return 'block';
     }
 
-    private function replaceBlockNode($name)
+    private function replaceBlockNode(string $name) : void
     {
-        $block = $this->parser->getBlock($name)->getNode(0);
+        $block = $this->parser->getBlock($name)->getNode('0');
         $this->parser->setBlock($name, $this->createDeferredBlockNode($block));
     }
 
-    private function createDeferredBlockNode(BlockNode $block)
+    private function createDeferredBlockNode(BlockNode $block) : DeferredBlockNode
     {
         $name = $block->getAttribute('name');
         $deferredBlock = new DeferredBlockNode($name, new Node([]), $block->getTemplateLine());

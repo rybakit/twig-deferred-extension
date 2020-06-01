@@ -1,13 +1,24 @@
 <?php
 
-namespace Phive\Twig\Extensions\Deferred;
+/**
+ * This file is part of the rybakit/twig-deferred-extension package.
+ *
+ * (c) Eugene Leonovich <gen.work@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Twig\DeferredExtension;
 
 use Twig\Compiler;
 use Twig\Node\BlockNode;
 
-class DeferredBlockNode extends BlockNode
+final class DeferredBlockNode extends BlockNode
 {
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler) : void
     {
         $name = $this->getAttribute('name');
 

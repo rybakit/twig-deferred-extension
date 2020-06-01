@@ -1,20 +1,28 @@
 <?php
 
-namespace Phive\Twig\Extensions\Deferred;
+/**
+ * This file is part of the rybakit/twig-deferred-extension package.
+ *
+ * (c) Eugene Leonovich <gen.work@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Twig\DeferredExtension;
 
 use Twig\Environment;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
-class DeferredNodeVisitor implements NodeVisitorInterface
+final class DeferredNodeVisitor implements NodeVisitorInterface
 {
     private $hasDeferred = false;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function enterNode(Node $node, Environment $env)
+    public function enterNode(Node $node, Environment $env) : Node
     {
         if (!$this->hasDeferred && $node instanceof DeferredBlockNode) {
             $this->hasDeferred = true;
@@ -23,10 +31,7 @@ class DeferredNodeVisitor implements NodeVisitorInterface
         return $node;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function leaveNode(Node $node, Environment $env)
+    public function leaveNode(Node $node, Environment $env) : ?Node
     {
         if ($this->hasDeferred && $node instanceof ModuleNode) {
             $node->setNode('display_end', new Node([new DeferredNode(), $node->getNode('display_end')]));
@@ -36,10 +41,7 @@ class DeferredNodeVisitor implements NodeVisitorInterface
         return $node;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority() : int
     {
         return 0;
     }
