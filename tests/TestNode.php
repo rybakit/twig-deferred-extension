@@ -1,13 +1,24 @@
 <?php
 
-namespace Phive\Twig\Extensions\Tests\Deferred;
+/**
+ * This file is part of the rybakit/twig-deferred-extension package.
+ *
+ * (c) Eugene Leonovich <gen.work@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Twig\DeferredExtension\Tests;
 
 use Twig\Compiler;
 use Twig\Node\Node;
 
-class TestNode extends Node
+final class TestNode extends Node
 {
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler) : void
     {
         $compiler
             ->write("if (isset(\$context['body_extra'])) {\n")

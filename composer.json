@@ -1,8 +1,8 @@
 {
-    "name": "phive/twig-extensions-deferred",
+    "name": "rybakit/twig-deferred-extension",
     "description": "An extension for Twig that allows to defer block rendering",
     "keywords": ["twig", "extension", "defer", "lazy"],
-    "homepage": "https://github.com/rybakit/twig-extensions-deferred",
+    "homepage": "https://github.com/rybakit/twig-deferred-extension",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -12,25 +12,23 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.8"
+        "twig/twig": "^3.0"
     },
     "require-dev": {
-      "phpunit/phpunit": "^6.5"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit": "^6.1|^7.0|^8.0|^9.0"
     },
     "autoload": {
         "psr-4": {
-            "Phive\\Twig\\Extensions\\Deferred\\": "src/"
+            "Twig\\DeferredExtension\\": "src/"
         }
     },
     "autoload-dev" : {
         "psr-4": {
-            "Phive\\Twig\\Extensions\\Tests\\Deferred\\": "tests/"
+            "Twig\\DeferredExtension\\Tests\\": "tests/"
         }
     },
     "config": {
-        "platform": {
-            "php": "7.0"
-        },
         "preferred-install": {
             "*": "dist"
         },
