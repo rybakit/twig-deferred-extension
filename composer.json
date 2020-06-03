@@ -1,7 +1,7 @@
 {
     "name": "rybakit/twig-deferred-extension",
-    "description": "An extension for Twig that allows to defer block rendering",
-    "keywords": ["twig", "extension", "defer", "lazy"],
+    "description": "An extension for Twig that allows to defer block rendering.",
+    "keywords": ["twig", "extension", "defer", "lazy", "override"],
     "homepage": "https://github.com/rybakit/twig-deferred-extension",
     "type": "library",
     "license": "MIT",
