@@ -1,0 +1,17 @@
+checks:
+  php: true
+
+tools:
+  php_mess_detector: true
+  php_cpd: true
+  php_loc:
+    excluded_dirs: [vendor]
+  php_pdepend:
+    excluded_dirs: [vendor]
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
