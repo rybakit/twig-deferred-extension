@@ -49,7 +49,7 @@ jobs:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: latest
           coverage: none
 
       - name: Get composer cache directory
