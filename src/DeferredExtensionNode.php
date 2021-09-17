@@ -16,12 +16,12 @@ namespace Twig\DeferredExtension;
 use Twig\Compiler;
 use Twig\Node\Node;
 
-final class DeferredNode extends Node
+final class DeferredExtensionNode extends Node
 {
     public function compile(Compiler $compiler) : void
     {
         $compiler
-            ->write("\$this->env->getExtension('".DeferredExtension::class."')->resolve(\$this, \$context, \$blocks);\n")
+            ->write("\$this->deferred = \$this->env->getExtension('".DeferredExtension::class."');\n")
         ;
     }
 }

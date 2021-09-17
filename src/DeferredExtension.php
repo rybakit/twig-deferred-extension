@@ -34,7 +34,13 @@ final class DeferredExtension extends AbstractExtension
     {
         $templateName = $template->getTemplateName();
         $this->blocks[$templateName][] = $blockName;
-        \ob_start();
+        $index = \count($this->blocks[$templateName]) - 1;
+
+        \ob_start(function (string $buffer) use ($index, $templateName) {
+            unset($this->blocks[$templateName][$index]);
+
+            return $buffer;
+        });
     }
 
     public function resolve(Template $template, array $context, array $blocks) : void
