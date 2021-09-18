@@ -37,7 +37,7 @@ final class IntegrationTest extends IntegrationTestCase
         return __DIR__.'/Fixtures';
     }
 
-    public function testDeferredBlockGetRemovedOnError() : void
+    public function testDeferredBlocksAreClearedOnRenderingError() : void
     {
         $loader = new ArrayLoader([
             'base' => '
