@@ -1,0 +1,10 @@
+--TEST--
+filter
+--TEMPLATE--
+{% block foo deferred %}
+1{% for test in test_array|default([])|filter(test => true) %}{% endfor %}2
+{% endblock %}
+--DATA--
+return []
+--EXPECT--
+12

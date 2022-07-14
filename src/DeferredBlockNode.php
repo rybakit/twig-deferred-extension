@@ -34,6 +34,7 @@ final class DeferredBlockNode extends BlockNode
             ->addDebugInfo($this)
             ->write("public function block_{$name}_deferred(\$context, array \$blocks = [])\n", "{\n")
             ->indent()
+            ->write("\$macros = \$this->macros;\n")
             ->subcompile($this->getNode('body'))
             ->write("\$this->deferred->resolve(\$this, \$context, \$blocks);\n")
             ->outdent()
