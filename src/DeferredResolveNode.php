@@ -21,7 +21,7 @@ final class DeferredResolveNode extends Node
     public function compile(Compiler $compiler) : void
     {
         $compiler
-            ->write("\$this->deferred->resolve(\$this, \$context, \$blocks);\n")
+            ->write("\$this->env->getExtension('".DeferredExtension::class."')->resolve(\$this, \$context, \$blocks);\n")
         ;
     }
 }

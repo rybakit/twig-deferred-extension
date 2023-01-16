@@ -25,7 +25,7 @@ final class DeferredBlockNode extends BlockNode
         $compiler
             ->write("public function block_$name(\$context, array \$blocks = [])\n", "{\n")
             ->indent()
-            ->write("\$this->deferred->defer(\$this, '$name');\n")
+            ->write("\$this->env->getExtension('".DeferredExtension::class."')->defer(\$this, '$name');\n")
             ->outdent()
             ->write("}\n\n")
         ;
@@ -36,7 +36,7 @@ final class DeferredBlockNode extends BlockNode
             ->indent()
             ->write("\$macros = \$this->macros;\n")
             ->subcompile($this->getNode('body'))
-            ->write("\$this->deferred->resolve(\$this, \$context, \$blocks);\n")
+            ->write("\$this->env->getExtension('".DeferredExtension::class."')->resolve(\$this, \$context, \$blocks);\n")
             ->outdent()
             ->write("}\n\n")
         ;

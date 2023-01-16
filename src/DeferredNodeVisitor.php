@@ -34,7 +34,6 @@ final class DeferredNodeVisitor implements NodeVisitorInterface
     public function leaveNode(Node $node, Environment $env) : ?Node
     {
         if ($this->hasDeferred && $node instanceof ModuleNode) {
-            $node->setNode('constructor_end', new Node([new DeferredExtensionNode(), $node->getNode('constructor_end')]));
             $node->setNode('display_end', new Node([new DeferredResolveNode(), $node->getNode('display_end')]));
             $this->hasDeferred = false;
         }
