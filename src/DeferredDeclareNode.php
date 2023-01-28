@@ -16,12 +16,12 @@ namespace Twig\DeferredExtension;
 use Twig\Compiler;
 use Twig\Node\Node;
 
-final class DeferredResolveNode extends Node
+final class DeferredDeclareNode extends Node
 {
     public function compile(Compiler $compiler) : void
     {
         $compiler
-            ->write("\$this->deferred->resolve(\$this, \$context, \$blocks);\n")
+            ->write("private \$deferred;\n")
         ;
     }
 }
