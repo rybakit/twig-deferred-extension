@@ -1,0 +1,12 @@
+--TEST--
+parents
+--TEMPLATE--
+{% extends "level1.twig" %}
+{% block overrided deferred %}{{ parent() }}:level2{% endblock %}
+--TEMPLATE(level1.twig)--
+{% block foo deferred %}[foo]{% endblock %}
+{% block overrided deferred %}[overrided]{% endblock %}
+--DATA--
+return []
+--EXPECT--
+[foo][overrided]:level2
