@@ -18,6 +18,7 @@ use Twig\Template;
 
 final class DeferredExtension extends AbstractExtension
 {
+    private $first = null;
     private $blocks = [];
 
     public function getTokenParsers() : array
@@ -30,37 +31,41 @@ final class DeferredExtension extends AbstractExtension
         return [new DeferredNodeVisitor()];
     }
 
+    public function markIfFirst(Template $template): void
+    {
+        if ($this->first === null) {
+            $this->first = $template;
+        }
+    }
+
     public function defer(Template $template, string $blockName) : void
     {
-        $templateName = $template->getTemplateName();
-        $this->blocks[$templateName][] = $blockName;
-        $index = \count($this->blocks[$templateName]) - 1;
-
-        \ob_start(function (string $buffer) use ($index, $templateName) {
-            unset($this->blocks[$templateName][$index]);
-
+        $this->blocks[] = [$template, $blockName];
+        $key = \array_key_last($this->blocks);
+        \ob_start(function (string $buffer) use ($key) {
+            unset($this->blocks[$key]);
             return $buffer;
         });
     }
 
     public function resolve(Template $template, array $context, array $blocks) : void
     {
-        $templateName = $template->getTemplateName();
-        if (empty($this->blocks[$templateName])) {
+        if ($this->first !== $template || empty($this->blocks)) {
             return;
         }
 
-        while ($blockName = \array_pop($this->blocks[$templateName])) {
+        // We don't use array_pop() here because it doesn't preserve keys, and we need it for the buffer callback
+        while (!empty($this->blocks)) {
+            $key = \array_key_last($this->blocks);
+            [$blockTemplate, $blockName] = $this->blocks[$key];
+            unset($this->blocks[$key]);
+
             $buffer = \ob_get_clean();
 
-            $blocks[$blockName] = [$template, 'block_'.$blockName.'_deferred'];
+            $blocks[$blockName] = [$blockTemplate, 'block_'.$blockName.'_deferred'];
             $template->displayBlock($blockName, $context, $blocks);
 
             echo $buffer;
-        }
-
-        if ($parent = $template->getParent($context)) {
-            $this->resolve($parent, $context, $blocks);
         }
     }
 }

@@ -35,6 +35,7 @@ final class DeferredNodeVisitor implements NodeVisitorInterface
     {
         if ($this->hasDeferred && $node instanceof ModuleNode) {
             $node->getNode('constructor_end')->setNode('deferred_initialize', new DeferredInitializeNode());
+            $node->getNode('display_start')->setNode('deferred_markiffirst', new DeferredMarkIfFirstNode());
             $node->getNode('display_end')->setNode('deferred_resolve', new DeferredResolveNode());
             $node->getNode('class_end')->setNode('deferred_declare', new DeferredDeclareNode());
             $this->hasDeferred = false;

@@ -1,0 +1,17 @@
+--TEST--
+parents
+--TEMPLATE--
+{% extends "level1.twig" %}
+{% block overrided deferred %}{{ parent() }}:level2({{data|join(', ')}}){% endblock %}
+{% do data.append('lazy2') %}
+--TEMPLATE(level1.twig)--
+{% block bar '[bar]' %}
+{% block foo deferred %}[foo({{data|join(', ')}})]{% endblock %}
+{% block baz '[baz]' %}
+{% block overrided deferred %}[overrided({{data|join(', ')}})]{% endblock %}
+{% block zoo '[zoo]' %}
+{% do data.append('lazy1') %}
+--DATA--
+return []
+--EXPECT--
+[bar][foo(lazy2, lazy1)][baz][overrided(lazy2, lazy1)]:level2(lazy2, lazy1)[zoo]
