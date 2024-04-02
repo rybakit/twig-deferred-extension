@@ -19,6 +19,7 @@ use Twig\Template;
 final class DeferredExtension extends AbstractExtension
 {
     private $blocks = [];
+    private $clearBlocksOnBufferCleanup = true;
 
     public function getTokenParsers() : array
     {
@@ -37,7 +38,9 @@ final class DeferredExtension extends AbstractExtension
         $index = \count($this->blocks[$templateName]) - 1;
 
         \ob_start(function (string $buffer) use ($index, $templateName) {
-            unset($this->blocks[$templateName][$index]);
+            if ($this->clearBlocksOnBufferCleanup) {
+                unset($this->blocks[$templateName][$index]);
+            }
 
             return $buffer;
         });
@@ -51,7 +54,9 @@ final class DeferredExtension extends AbstractExtension
         }
 
         while ($blockName = \array_pop($this->blocks[$templateName])) {
+            $this->clearBlocksOnBufferCleanup = false;
             $buffer = \ob_get_clean();
+            $this->clearBlocksOnBufferCleanup = true;
 
             $blocks[$blockName] = [$template, 'block_'.$blockName.'_deferred'];
             $template->displayBlock($blockName, $context, $blocks);
