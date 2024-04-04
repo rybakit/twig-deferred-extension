@@ -1,5 +1,5 @@
 --TEST--
-first deferred
+inherited
 --TEMPLATE--
 {% extends "layout.twig" %}
 {% block bar deferred %}[bar-overridden]{% endblock %}
