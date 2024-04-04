@@ -1,0 +1,12 @@
+--TEST--
+inherited
+--TEMPLATE--
+{% extends "layout.twig" %}
+{% block bar deferred %}[bar-overridden]{% endblock %}
+--TEMPLATE(layout.twig)--
+{% block foo deferred %}[foo]{% endblock %}
+{% block bar deferred %}[bar]{% endblock %}
+--DATA--
+return []
+--EXPECT--
+[bar-overridden][foo]

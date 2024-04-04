@@ -56,11 +56,7 @@ final class IntegrationTest extends IntegrationTestCase
             ',
         ]);
 
-        $twig = new Environment($loader, [
-            'cache' => false,
-            'strict_variables' => true,
-        ]);
-
+        $twig = new Environment($loader);
         $twig->addExtension(new DeferredExtension());
         $twig->addFunction(new TwigFunction('error', static function () {
             throw new \RuntimeException('Oops');
